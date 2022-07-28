@@ -15,6 +15,5 @@ while ser:
     try:
         x = ser.read()
         sys.stdout.write(x)
-        pass
     except serial.serialutil.SerialException:
         pass
