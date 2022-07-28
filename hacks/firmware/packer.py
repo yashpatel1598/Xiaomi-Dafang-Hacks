@@ -25,12 +25,10 @@ def cli(kernel, rootfs, driver, appfs, outfile):
     for name, size, filename in dic:
         buffersize = os.path.getsize(filename)
         if size < buffersize:
-            click.echo('Size mismatch. The provided {} has a '
-                       'size of {}, but it need to have the '
-                       'size {}. Please try to free some '
-                       'space!'.format(name,
-                                       buffersize,
-                                       size))
+            click.echo(
+                f'Size mismatch. The provided {name} has a size of {buffersize}, but it need to have the size {size}. Please try to free some space!'
+            )
+
             return
 
         part = open(filename, "rb")
@@ -39,18 +37,18 @@ def cli(kernel, rootfs, driver, appfs, outfile):
         # Padding with zeros:
         if buffersize < size:
             padsize = size - buffersize
-            for x in range(0, padsize):
+            for _ in range(padsize):
                 fullflash.write(bytearray.fromhex('00'))
 
-    cmd = "mkimage -A MIPS -O linux -T firmware -C none -a 0 -e 0 -n jz_fw -d " + tmpfile + " " + outfile
+    cmd = f"mkimage -A MIPS -O linux -T firmware -C none -a 0 -e 0 -n jz_fw -d {tmpfile} {outfile}"
+
 
     subprocess.check_output(cmd, shell=True)
 
     os.remove(tmpfile)
 
-    click.echo('Firmware {} was successfully created!'.format(outfile))
+    click.echo(f'Firmware {outfile} was successfully created!')
 
 
 if __name__ == '__main__':
     cli()
-    pass

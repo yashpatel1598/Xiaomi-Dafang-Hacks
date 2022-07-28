@@ -20,7 +20,7 @@ def cli(inputfile):
     fullflash = open(inputfile, 'rb')
     fullflash.seek(64)
     for name, size in dic:
-        filename = "flash/" + name + ".bin"
+        filename = f"flash/{name}.bin"
         buffer = fullflash.read(size)
         f = open(filename, "wb")
         f.write(buffer)
